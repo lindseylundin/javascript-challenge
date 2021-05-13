@@ -1,36 +1,3 @@
-// // from data.js
-// var tableData = data;
-
-// // Use D3 to select the table body
-// var tbody = d3.select("tbody");
-
-// // forEach loop that populates table
-// tableData.forEach((item) =>
-// {
-//     // row is created for table
-//     var row = tbody.append('tr');
-
-//     // Date/Time appended to row
-//     row.append('td').text(item.datetime);
-//     // City appended to row
-//     row.append('td').text(item.city);
-//     // State appended to row
-//     row.append('td').text(item.state);
-//     // Country appended to row
-//     row.append('td').text(item.country);
-//     // Shape appended to row
-//     row.append('td').text(item.shape);
-//     // Duration appended to row
-//     row.append('td').text(item.durationMinutes);
-//     // Comments appended to row
-//     row.append('td').text(item.comments);
-// }
-// )
-
-
-
-
-// FROM VIDEO
 // from data.js
 var tableData = data;
 
@@ -86,7 +53,52 @@ tableData.forEach(function(ufoSight) {
     Object.entries(ufoSight).forEach(function([key, value]) {
         console.log(key, value);
 
-        var cell = tbody.append("td");
+        var cell = row.append("td");
         cell.text(value);
     });
 });
+
+// Select the submit button for search
+var button = d3.select("#filter-btn");
+
+// Complete the click handler for the form
+button.on("click", function() {
+
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    // Select the input element and get the raw HTML node
+    var inputElement = d3.select("#datetime");
+
+    // Get the value property of the input element 
+    var inputValue = inputElement.property("value");
+
+    console.log(inputValue)
+    console.log(tableData);
+
+    // Use the form input to filter the data
+    var filteredData = tableData.filter(ufoSight => ufoSight.datetime === inputValue);
+
+    console.log(filteredData);
+
+
+
+    // Clear table 
+    tbody.text("");
+
+    // Display filtered data based on date input
+    filteredData.forEach(function(ufoSight) {
+        console.log(ufoSight);
+        var row = tbody.append("tr");
+    
+        Object.entries(ufoSight).forEach(function([key, value]) {
+            console.log(key, value);
+    
+            var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+
+
+});
+
